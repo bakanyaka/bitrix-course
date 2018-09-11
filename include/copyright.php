@@ -1,0 +1,1 @@
+<p>&copy; Copyright - Acme Theme by cosmic.</p>

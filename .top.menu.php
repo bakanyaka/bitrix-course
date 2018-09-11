@@ -1,0 +1,46 @@
+<?
+$aMenuLinks = Array(
+	Array(
+		"Главная", 
+		"/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"О нас", 
+		"/about/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Работодателям", 
+		"/employers/", 
+		Array(), 
+		Array(), 
+		"CSite::InGroup(array(1,6,8,5))" 
+	),
+	Array(
+		"Соискателям", 
+		"/applicants/", 
+		Array(), 
+		Array(), 
+		"CSite::InGroup(array(1,7,8,5))" 
+	),
+	Array(
+		"Мероприятия", 
+		"/events/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Учебные курсы", 
+		"/courses/", 
+		Array(), 
+		Array(), 
+		"" 
+	)
+);
+?>
