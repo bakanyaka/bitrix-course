@@ -4,8 +4,8 @@ $APPLICATION->SetTitle("Мероприятия");
 ?>
     <div class="container">
         <? $APPLICATION->IncludeComponent("bitrix:news", "events", Array(
-            "ADD_ELEMENT_CHAIN" => "N",    // Включать название элемента в цепочку навигации
-            "ADD_SECTIONS_CHAIN" => "N",    // Включать раздел в цепочку навигации
+            "ADD_ELEMENT_CHAIN" => "Y",    // Включать название элемента в цепочку навигации
+            "ADD_SECTIONS_CHAIN" => "Y",    // Включать раздел в цепочку навигации
             "AJAX_MODE" => "N",    // Включить режим AJAX
             "AJAX_OPTION_ADDITIONAL" => "",    // Дополнительный идентификатор
             "AJAX_OPTION_HISTORY" => "N",    // Включить эмуляцию навигации браузера
@@ -22,16 +22,25 @@ $APPLICATION->SetTitle("Мероприятия");
             "DETAIL_ACTIVE_DATE_FORMAT" => "d.m.Y",    // Формат показа даты
             "DETAIL_DISPLAY_BOTTOM_PAGER" => "Y",    // Выводить под списком
             "DETAIL_DISPLAY_TOP_PAGER" => "N",    // Выводить над списком
-            "DETAIL_FIELD_CODE" => array(    // Поля
-                0 => "",
-                1 => "",
+            "DETAIL_FIELD_CODE" => array(
+                "NAME",
+                "TAGS",
+                "PREVIEW_TEXT",
+                "DETAIL_TEXT",
+                "DETAIL_PICTURE",
+                "DATE_ACTIVE_FROM",
+                "ACTIVE_FROM",
+                "DATE_ACTIVE_TO",
+                "ACTIVE_TO",
+                "SHOW_COUNTER",
+                "CREATED_BY",
+                "CREATED_USER_NAME",
             ),
             "DETAIL_PAGER_SHOW_ALL" => "Y",    // Показывать ссылку "Все"
             "DETAIL_PAGER_TEMPLATE" => "",    // Название шаблона
             "DETAIL_PAGER_TITLE" => "Страница",    // Название категорий
             "DETAIL_PROPERTY_CODE" => array(    // Свойства
-                0 => "",
-                1 => "",
+                "ATT_REG_LINK",
             ),
             "DETAIL_SET_CANONICAL_URL" => "N",    // Устанавливать канонический URL
             "DISPLAY_AS_RATING" => "rating",    // В качестве рейтинга показывать
@@ -49,9 +58,10 @@ $APPLICATION->SetTitle("Мероприятия");
             "INCLUDE_IBLOCK_INTO_CHAIN" => "N",    // Включать инфоблок в цепочку навигации
             "LIST_ACTIVE_DATE_FORMAT" => "d.m.Y",    // Формат показа даты
             "LIST_FIELD_CODE" => array(
-                    "CREATED_BY",
-                    "CREATED_USER_NAME",
-                    "TAGS"
+                "CREATED_BY",
+                "CREATED_USER_NAME",
+                "DETAIL_PICTURE",
+                "TAGS",
             ),
             "LIST_PROPERTY_CODE" => array(    // Свойства
                 0 => "",
@@ -83,7 +93,7 @@ $APPLICATION->SetTitle("Мероприятия");
             "SHOW_404" => "N",    // Показ специальной страницы
             "SORT_BY1" => "ACTIVE_FROM",    // Поле для первой сортировки новостей
             "SORT_BY2" => "SORT",    // Поле для второй сортировки новостей
-            "SORT_ORDER1" => "DESC",    // Направление для первой сортировки новостей
+            "SORT_ORDER1" => "ASC",    // Направление для первой сортировки новостей
             "SORT_ORDER2" => "ASC",    // Направление для второй сортировки новостей
             "STRICT_SECTION_CHECK" => "N",    // Строгая проверка раздела
             "TAGS_CLOUD_ELEMENTS" => "150",    // Количество тегов
@@ -94,7 +104,7 @@ $APPLICATION->SetTitle("Мероприятия");
             "USE_RATING" => "N",    // Разрешить голосование
             "USE_REVIEW" => "N",    // Разрешить отзывы
             "USE_RSS" => "N",    // Разрешить RSS
-            "USE_SEARCH" => "N",    // Разрешить поиск
+            "USE_SEARCH" => "Y",    // Разрешить поиск
             "USE_SHARE" => "N",    // Отображать панель соц. закладок
         ),
             false

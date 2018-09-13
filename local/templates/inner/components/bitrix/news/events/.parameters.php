@@ -1,101 +1,106 @@
 <?
 if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 
-$arTemplateParameters = array(
-	"DISPLAY_DATE" => Array(
+$arTemplateParameters = [
+    "SHOW_FINISHED" => [
+        "NAME" => GetMessage("T_IBLOCK_SHOW_FINISHED"),
+        "TYPE" => "CHECKBOX",
+        "DEFAULT" => "N",
+    ],
+	"DISPLAY_DATE" => [
 		"NAME" => GetMessage("T_IBLOCK_DESC_NEWS_DATE"),
 		"TYPE" => "CHECKBOX",
 		"DEFAULT" => "Y",
-	),
-	"DISPLAY_PICTURE" => Array(
+    ],
+	"DISPLAY_PICTURE" => [
 		"NAME" => GetMessage("T_IBLOCK_DESC_NEWS_PICTURE"),
 		"TYPE" => "CHECKBOX",
 		"DEFAULT" => "Y",
-	),
-	"DISPLAY_PREVIEW_TEXT" => Array(
+    ],
+	"DISPLAY_PREVIEW_TEXT" => [
 		"NAME" => GetMessage("T_IBLOCK_DESC_NEWS_TEXT"),
 		"TYPE" => "CHECKBOX",
 		"DEFAULT" => "Y",
-	),
-	"DISPLAY_AS_RATING" => Array(
+    ],
+	"DISPLAY_AS_RATING" => [
 		"NAME" => GetMessage("TP_CBIV_DISPLAY_AS_RATING"),
 		"TYPE" => "LIST",
-		"VALUES" => array(
+		"VALUES" => [
 			"rating" => GetMessage("TP_CBIV_RATING"),
 			"vote_avg" => GetMessage("TP_CBIV_AVERAGE"),
-		),
+        ],
 		"DEFAULT" => "rating",
-	),
-	"TAGS_CLOUD_ELEMENTS" => array(
+    ],
+	"TAGS_CLOUD_ELEMENTS" => [
 		"PARENT" => "BASE",
 		"NAME" => GetMessage("SEARCH_PAGE_ELEMENTS"),
 		"TYPE" => "STRING",
 		"DEFAULT" => "150",
-	),
-	"PERIOD_NEW_TAGS" => array(
+    ],
+	"PERIOD_NEW_TAGS" => [
 		"PARENT" => "BASE",
 		"NAME" => GetMessage("SEARCH_PERIOD_NEW_TAGS"),
 		"TYPE" => "STRING",
 		"MULTIPLE" => "N",
 		"DEFAULT" => ""
-	),
-	"FONT_MAX" => array(
+    ],
+	"FONT_MAX" => [
 		"NAME" => GetMessage("SEARCH_FONT_MAX"),
 		"TYPE" => "STRING",
 		"MULTIPLE" => "N",
 		"DEFAULT" => "50"
-	),
-	"FONT_MIN" => array(
+    ],
+	"FONT_MIN" => [
 		"NAME" => GetMessage("SEARCH_FONT_MIN"),
 		"TYPE" => "STRING",
 		"MULTIPLE" => "N",
 		"DEFAULT" => "10"
-	),
-	"COLOR_NEW" => array(
+    ],
+	"COLOR_NEW" => [
 		"NAME" => GetMessage("SEARCH_COLOR_NEW"),
 		"TYPE" => "STRING",
 		"MULTIPLE" => "N",
 		"DEFAULT" => "3E74E6"
-	),
-	"COLOR_OLD" => array(
+    ],
+	"COLOR_OLD" => [
 		"NAME" => GetMessage("SEARCH_COLOR_OLD"),
 		"TYPE" => "STRING",
 		"MULTIPLE" => "N",
 		"DEFAULT" => "C0C0C0"
-	),
-	"TAGS_CLOUD_WIDTH" => array(
+    ],
+	"TAGS_CLOUD_WIDTH" => [
 		"NAME" => GetMessage("SEARCH_WIDTH"),
 		"TYPE" => "STRING",
 		"MULTIPLE" => "N",
 		"DEFAULT" => "100%"
-	),
-	"USE_SHARE" => Array(
+    ],
+	"USE_SHARE" => [
 		"NAME" => GetMessage("T_IBLOCK_DESC_NEWS_USE_SHARE"),
 		"TYPE" => "CHECKBOX",
 		"MULTIPLE" => "N",
 		"VALUE" => "Y",
 		"DEFAULT" =>"N",
 		"REFRESH"=> "Y",
-	),	
-);
+    ],
+];
 
 if ($arCurrentValues["USE_SHARE"] == "Y")
 {
-	$arTemplateParameters["SHARE_HIDE"] = array(
+	$arTemplateParameters["SHARE_HIDE"] = [
 		"NAME" => GetMessage("T_IBLOCK_DESC_NEWS_SHARE_HIDE"),
 		"TYPE" => "CHECKBOX",
 		"VALUE" => "Y",
 		"DEFAULT" => "N",
-	);
+    ];
 
-	$arTemplateParameters["SHARE_TEMPLATE"] = array(
+	$arTemplateParameters["SHARE_TEMPLATE"] = [
 		"NAME" => GetMessage("T_IBLOCK_DESC_NEWS_SHARE_TEMPLATE"),
 		"DEFAULT" => "",
 		"TYPE" => "STRING",
 		"MULTIPLE" => "N",
 		"COLS" => 25,
 		"REFRESH"=> "Y",
-	);
+    ];
 	
 	if (strlen(trim($arCurrentValues["SHARE_TEMPLATE"])) <= 0)
 		$shareComponentTemlate = false;
@@ -106,24 +111,24 @@ if ($arCurrentValues["USE_SHARE"] == "Y")
 
 	$arHandlers = __bx_share_get_handlers($shareComponentTemlate);
 
-	$arTemplateParameters["SHARE_HANDLERS"] = array(
+	$arTemplateParameters["SHARE_HANDLERS"] = [
 		"NAME" => GetMessage("T_IBLOCK_DESC_NEWS_SHARE_SYSTEM"),
 		"TYPE" => "LIST",
 		"MULTIPLE" => "Y",
 		"VALUES" => $arHandlers["HANDLERS"],
 		"DEFAULT" => $arHandlers["HANDLERS_DEFAULT"],
-	);
+    ];
 
-	$arTemplateParameters["SHARE_SHORTEN_URL_LOGIN"] = array(
+	$arTemplateParameters["SHARE_SHORTEN_URL_LOGIN"] = [
 		"NAME" => GetMessage("T_IBLOCK_DESC_NEWS_SHARE_SHORTEN_URL_LOGIN"),
 		"TYPE" => "STRING",
 		"DEFAULT" => "",
-	);
+    ];
 	
-	$arTemplateParameters["SHARE_SHORTEN_URL_KEY"] = array(
+	$arTemplateParameters["SHARE_SHORTEN_URL_KEY"] = [
 		"NAME" => GetMessage("T_IBLOCK_DESC_NEWS_SHARE_SHORTEN_URL_KEY"),
 		"TYPE" => "STRING",
 		"DEFAULT" => "",
-	);
+    ];
 }
 ?>

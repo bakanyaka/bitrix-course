@@ -1162,7 +1162,10 @@ section.contact-infos {
 }
 .author a,
 .st-view a { color: #48cfad }
-.st-view { margin-top: 20px }
+.st-view {
+    margin-top: 20px;
+    color: #48cfad;
+}
 .st-view ul li { margin-bottom: 5px }
 .blog-side-item h3 {
     margin-top: 30px;
@@ -2435,6 +2438,12 @@ span.filter {
 p { text-align: center }
 .candidate ul li { padding: 3px 0 }
 .candidate h1 { margin-bottom: 20px }
+.candidate .preview-text {
+    padding-bottom: 10px;
+}
+.candidate .btn {
+    margin-top: 10px;
+}
 .align-left { text-align: left }
 .privacy-terms h3,
 p { text-align: left }

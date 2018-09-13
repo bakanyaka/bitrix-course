@@ -16,6 +16,7 @@ $MESS["SEARCH_COLOR_NEW"] = "Цвет более позднего тега (пр
 $MESS["SEARCH_PERIOD_NEW_TAGS"] = "Период,  в течение которого считать тег новым (дней)";
 $MESS["SEARCH_WIDTH"] = "Ширина облака тегов (пример: \"100%\" или \"100px\", \"100pt\", \"100in\")";
 $MESS["TP_CBIV_DISPLAY_AS_RATING"] = "В качестве рейтинга показывать";
+$MESS["T_IBLOCK_SHOW_FINISHED"] = 'Показывать прошедшие собыития';
 $MESS["TP_CBIV_AVERAGE"] = "Среднее значение";
 $MESS["TP_CBIV_RATING"] = "Рейтинг";
 ?>
