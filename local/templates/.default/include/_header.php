@@ -15,8 +15,8 @@ $assets = \Bitrix\Main\Page\Asset::getInstance();
      * CSS
      */
     // Bootstrap core CSS
-    $assets->addCss('/local/templates/.default/vendor/bootstrap/bootstrap-reset.css');
     $assets->addCss('/local/templates/.default/vendor/bootstrap/bootstrap.min.css');
+    $assets->addCss('/local/templates/.default/vendor/bootstrap/bootstrap-reset.css');
     $assets->addCss('/local/templates/.default/vendor/bootstrap/theme.css');
     // Vendor CSS
     $assets->addCss('/local/templates/.default/vendor/font-awesome/css/font-awesome.css');

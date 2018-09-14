@@ -1924,9 +1924,9 @@ ul#filters > .active > span {
     transition: all .3s ease;
 }
 .form-signin p {
-    text-align: center;
+    text-align: left;
     color: #b6b6b6;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 300;
 }
 .form-signin a { color: #41cac0 }
@@ -3010,4 +3010,27 @@ div.header h3{
     position: absolute;
     left:50%;
     top:-4px;
+}
+
+form .error {
+    color: #e74c3c;
+    font-size: 12px;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+.form-signin .help-block {
+    font-size: 12px;
+    margin-top: -10px;
+    text-align: left;
+}
+.form-signin .section {
+    font-size: 16px;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.form-signin .form-control {
+    font-size: 14px;
 }

@@ -1,0 +1,9 @@
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper i {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+}
