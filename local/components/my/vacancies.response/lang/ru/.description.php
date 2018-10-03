@@ -1,0 +1,4 @@
+<?php
+$MESS['VACANCIES_RESPONSE_COMPONENT_NAME'] = 'Отклик на вакансию';
+$MESS['VACANCIES_RESPONSE_COMPONENT_DESCRIPTION'] = 'Форма отклика на вакансию';
+$MESS['VACANCIES_RESPONSE_COMPONENT_GROUP'] = 'Вакансии';

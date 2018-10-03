@@ -1,1 +1,1 @@
-<a class="navbar-brand" href="<? SITE_DIR ?>">A<span>cme</span></a>
+<a class="navbar-brand" href="<?= SITE_DIR ?>">A<span>cme</span></a>
