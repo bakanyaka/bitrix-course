@@ -75,8 +75,9 @@ $this->setFrameMode(true);
             "VACANCY_ID" => $ElementID,
             "RESUMES_IBLOCK_TYPE" => 'resume',
             "RESUMES_IBLOCK_ID" => 5,
-            "HIGHLOAD_BLOCK_ID" => 4
-
+            "HIGHLOAD_BLOCK_ID" => 4,
+            "CACHE_TIME" => "36000000",
+            "CACHE_TYPE" => "A",
     )
 );?>
 <hr>

@@ -3,13 +3,23 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 use Bitrix\Highloadblock\HighloadBlockTable;
 use Bitrix\Main;
+use Bitrix\Main\Loader;
 use Bitrix\Main\Localization\Loc as Loc;
 use Bitrix\Main\Type\DateTime;
+
+Loader::includeModule("highloadblock");
 
 Loc::loadMessages(__FILE__);
 
 class VacanciesResponseComponent extends CBitrixComponent
 {
+
+    /**
+     * arResult keys to cache
+     * @var array
+     */
+    protected $cacheKeys = ['RESUMES', 'VACANCY', 'PARAMS_HASH', 'VACANCY_AUTHOR_EMAIL'];
+
     /**
      * Prepares all the parameters passed.
      * @param mixed[] $params List of unchecked parameters
@@ -36,21 +46,30 @@ class VacanciesResponseComponent extends CBitrixComponent
         try {
             $this->checkModules();
             $this->checkParams();
-            $this->executeProlog();
-            $this->handleSubmit();
-            $this->getResult();
+            $this->executeBeforeCaching();
+            if (!$this->readCache()) {
+                $this->getResult();
+                $this->SetResultCacheKeys($this->cacheKeys);
+                $this->endResultCache();
+            }
+            $this->executeAfterCaching();
+            $this->processRequest();
             $this->includeComponentTemplate();
         } catch (Exception $e) {
+            $this->AbortResultCache();
             ShowError($e->getMessage());
         }
     }
 
-    protected function getUserId()
+    /**
+     * Checks that all required modules are installed
+     * @throws Main\LoaderException
+     */
+    protected function checkModules()
     {
-        global $USER;
-        if (isset($USER) && $USER instanceof CUser)
-            return (int)$USER->getId();
-        return 0;
+        if (!Main\Loader::includeModule('iblock')) {
+            throw new Main\LoaderException(Loc::getMessage('VACANCIES_RESPONSE_CLASS_IBLOCK_MODULE_NOT_INSTALLED'));
+        }
     }
 
     /**
@@ -77,20 +96,94 @@ class VacanciesResponseComponent extends CBitrixComponent
     }
 
     /**
-     * Checks that all required modules are installed
-     * @throws Main\LoaderException
+     *  Executes actions before caching
      */
-    protected function checkModules()
+    protected function executeBeforeCaching()
     {
-        if (!Main\Loader::includeModule('iblock')) {
-            throw new Main\LoaderException(Loc::getMessage('VACANCIES_RESPONSE_CLASS_IBLOCK_MODULE_NOT_INSTALLED'));
-        }
+        $this->arResult["PARAMS_HASH"] = md5(serialize($this->arParams) . $this->GetTemplateName());
     }
 
+    protected function readCache()
+    {
+        global $USER;
+
+        return !$this->startResultCache(false, $USER->GetGroups());
+    }
+
+    /**
+     * @throws Main\ArgumentNullException
+     */
     protected function getResult()
     {
-        $this->arResult['USER'] = $this->getUser();
-        $this->arResult['ITEMS'] = $this->getUsersResumes();
+        $this->arResult['RESUMES'] = $this->getUsersResumes();
+        $this->arResult['VACANCY'] = $this->getVacancy();
+        $this->arResult['VACANCY_AUTHOR_EMAIL'] = $this->getUser($this->arResult['VACANCY']['CREATED_BY'])['EMAIL'];
+    }
+
+    /**
+     * @throws Main\ArgumentException
+     * @throws Main\ObjectException
+     * @throws Main\ObjectPropertyException
+     * @throws Main\SystemException
+     */
+    protected function processRequest()
+    {
+        global $APPLICATION;
+
+        $request = \Bitrix\Main\Context::getCurrent()->getRequest();
+
+        if (!$request->isPost() || (isset($request["PARAMS_HASH"]) && $this->arResult["PARAMS_HASH"] !== $request["PARAMS_HASH"])) {
+            return;
+        }
+
+        // Cancel processing if validation failed
+        if (!$this->validateRequest($request)) {
+            return;
+        }
+
+        // Load resume data
+        if (!isset($this->arResult['RESUMES'][$request["RESUME_ID"]])) {
+            $this->arResult["ERROR_MESSAGE"][] = GetMessage("VACANCIES_RESPONSE_CLASS_REQ_RESUME_ID");
+            return;
+        }
+
+        $resume = $this->arResult['RESUMES'][$request["RESUME_ID"]];
+
+        $arFields = [
+            "VACANCY_ID" => $this->arParams["VACANCY_ID"],
+            "EMAIL_TO" => $this->arResult['VACANCY_AUTHOR_EMAIL'],
+            "APPLICANT_NAME" => $resume["USER_NAME"],
+            "VACANCY_NAME" => $this->arResult['VACANCY']["NAME"],
+            "RESUME_ID" => $resume["ID"],
+            "RESUME_URL" => $resume["DETAIL_PAGE_URL"],
+            "RESPONSE_TEXT" => $request["MESSAGE"],
+            "RESPONSE_DATE" => new DateTime(),
+        ];
+
+        $this->sendMailToVacancyAuthor($arFields);
+        $this->saveDataToHighLoadBlock($arFields);
+
+        LocalRedirect($APPLICATION->GetCurPageParam("success=" . $this->arResult["PARAMS_HASH"], Array("success")));
+    }
+
+    protected function executeAfterCaching()
+    {
+        global $APPLICATION;
+
+        if ($_REQUEST["success"] == $this->arResult["PARAMS_HASH"]) {
+            $this->arResult["OK_MESSAGE"] = GetMessage("VACANCIES_RESPONSE_CLASS_SEND_SUCCESS_MESSAGE");;
+        }
+
+        if ($this->arParams["USE_CAPTCHA"] == "Y")
+            $this->arResult["capCode"] = htmlspecialcharsbx($APPLICATION->CaptchaGetCode());
+    }
+
+    protected function getUserId()
+    {
+        global $USER;
+        if (isset($USER) && $USER instanceof CUser)
+            return (int)$USER->getId();
+        return 0;
     }
 
     protected function getUser($userId = null)
@@ -116,67 +209,26 @@ class VacanciesResponseComponent extends CBitrixComponent
 
         $select = [
             'ID',
-            'NAME'
+            'NAME',
+            'USER_NAME',
+            'DETAIL_PAGE_URL'
         ];
 
         $iterator = \CIBlockElement::GetList([], $filter, false, array(), $select);
         $resumes = [];
         while ($element = $iterator->GetNext()) {
-            $resumes[] = $element;
+            $resumes[$element['ID']] = $element;
         }
         return $resumes;
     }
 
-    protected function handleSubmit()
-    {
-        global $APPLICATION;
-
-        if ($_SERVER["REQUEST_METHOD"] !== "POST" || (isset($_POST["PARAMS_HASH"]) && $this->arResult["PARAMS_HASH"] !== $_POST["PARAMS_HASH"])) {
-            return;
-        }
-
-        // Cancel processing if validation failed
-        if (!$this->validateRequest()) {
-            return;
-        }
-
-        // Load resume data
-        $res = CIBlockElement::GetByID($_POST["RESUME_ID"]);
-        if (!$resume = $res->GetNext()) {
-            $this->arResult["ERROR_MESSAGE"][] = GetMessage("VACANCIES_RESPONSE_CLASS_REQ_RESUME_ID");
-            return;
-        }
-
-        // Load vacancy data
-        $res = CIBlockElement::GetByID($this->arParams["VACANCY_ID"]);
-        if (!$vacancy = $res->GetNext()) {
-            throw new Main\ArgumentNullException('USER_ID');
-        }
-
-        // Load vacancy author data
-        $vacancyAuthor = $this->getUser($vacancy["CREATED_BY"]);
-
-        $arFields = [
-            "VACANCY_ID" => $this->arParams["VACANCY_ID"],
-            "EMAIL_TO" => $vacancyAuthor["EMAIL"],
-            "APPLICANT_NAME" => $resume["USER_NAME"],
-            "VACANCY_NAME" => $vacancy["NAME"],
-            "RESUME_ID" => $resume["ID"],
-            "RESUME_URL" => $resume["DETAIL_PAGE_URL"],
-            "RESPONSE_TEXT" => $_POST["MESSAGE"],
-            "RESPONSE_DATE" => new DateTime(),
-        ];
-
-        $this->sendMailToVacancyAuthor($arFields);
-        $this->saveDataToHighLoadBlock($arFields);
-
-        LocalRedirect($APPLICATION->GetCurPageParam("success=" . $this->arResult["PARAMS_HASH"], Array("success")));
-    }
 
     /**
      *  Validates submitted post request data
+     * @param $request
+     * @return bool
      */
-    protected function validateRequest()
+    protected function validateRequest($request)
     {
         $this->arResult["ERROR_MESSAGE"] = [];
 
@@ -186,17 +238,17 @@ class VacanciesResponseComponent extends CBitrixComponent
             return false;
         }
 
-        if (strlen($_POST["MESSAGE"]) <= 3) {
+        if (strlen($request["MESSAGE"]) <= 3) {
             $this->arResult["ERROR_MESSAGE"][] = GetMessage("VACANCIES_RESPONSE_CLASS_REQ_MESSAGE");
         }
 
-        if (intval($_POST["RESUME_ID"]) < 1) {
+        if (intval($request["RESUME_ID"]) < 1) {
             $this->arResult["ERROR_MESSAGE"][] = GetMessage("VACANCIES_RESPONSE_CLASS_REQ_RESUME_ID");
         }
 
         if ($this->arParams["USE_CAPTCHA"] == "Y") {
-            $captcha_code = $_POST["captcha_sid"];
-            $captcha_word = $_POST["captcha_word"];
+            $captcha_code = $request["captcha_sid"];
+            $captcha_word = $request["captcha_word"];
             $cpt = new CCaptcha();
             $captchaPass = COption::GetOptionString("main", "captcha_password", "");
             if (strlen($captcha_word) > 0 && strlen($captcha_code) > 0) {
@@ -212,22 +264,6 @@ class VacanciesResponseComponent extends CBitrixComponent
         }
 
         return true;
-    }
-
-    /**
-     *  Executes actions before caching
-     */
-    protected function executeProlog()
-    {
-        global $APPLICATION;
-        if ($this->arParams["USE_CAPTCHA"] == "Y")
-            $this->arResult["capCode"] = htmlspecialcharsbx($APPLICATION->CaptchaGetCode());
-
-        $this->arResult["PARAMS_HASH"] = md5(serialize($this->arParams) . $this->GetTemplateName());
-
-        if ($_REQUEST["success"] == $this->arResult["PARAMS_HASH"]) {
-            $this->arResult["OK_MESSAGE"] = GetMessage("VACANCIES_RESPONSE_CLASS_SEND_SUCCESS_MESSAGE");;
-        }
     }
 
     /**
@@ -257,7 +293,7 @@ class VacanciesResponseComponent extends CBitrixComponent
     protected function saveDataToHighLoadBlock($arFields)
     {
         if ($this->arParams["HIGHLOAD_BLOCK_ID"] > 0) {
-            $hlblock = HighloadBlockTable::getById($this->arParams["HIGHLOAD_BLOCK_ID"])->fetch();
+            $hlblock = Bitrix\Highloadblock\HighloadBlockTable::getById($this->arParams["HIGHLOAD_BLOCK_ID"])->fetch();
             $entity = HighloadBlockTable::compileEntity($hlblock);
             $entity_data_class = $entity->getDataClass();
 
@@ -271,5 +307,31 @@ class VacanciesResponseComponent extends CBitrixComponent
             $result = $entity_data_class::add($data);
         }
     }
+
+    /**
+     * @return array
+     * @throws Main\ArgumentNullException
+     */
+    protected function getVacancy()
+    {
+        $filter = [
+            'ID' => $this->arParams["VACANCY_ID"],
+        ];
+
+        $select = [
+            'ID',
+            'NAME',
+            'USER_NAME',
+            'DETAIL_PAGE_URL'
+        ];
+
+        $iterator = \CIBlockElement::GetList([], $filter, false, array(), $select);
+        if (!$vacancy = $iterator->GetNext()) {
+            throw new Main\ArgumentNullException('VACANCY_ID');
+        }
+
+        return $vacancy;
+    }
+
 
 }

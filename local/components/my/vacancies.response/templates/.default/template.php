@@ -13,7 +13,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 <h4>
     <?= GetMessage("VACANCIES_RESPONSE_TEMPLATE_HEADER") ?>
 </h4>
-<? if(!empty($arResult["ITEMS"])): ?>
+<? if(!empty($arResult["RESUMES"])): ?>
 <div class="vacancy-response-form">
     <? if (!empty($arResult["ERROR_MESSAGE"])) {
         foreach ($arResult["ERROR_MESSAGE"] as $v)
@@ -32,7 +32,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
                 <?= GetMessage("VACANCIES_RESPONSE_TEMPLATE_RESUME") ?>
             </label>
             <select id="resume" name="RESUME_ID" class="form-control">
-                <? foreach ($arResult["ITEMS"] as $resume): ?>
+                <? foreach ($arResult["RESUMES"] as $resume): ?>
                     <option value="<?= $resume["ID"] ?>"><?= "[{$resume["ID"]}] {$resume["NAME"]}" ?></option>
                 <? endforeach; ?>
             </select>

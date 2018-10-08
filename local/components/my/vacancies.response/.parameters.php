@@ -28,7 +28,7 @@ $db_iblock = CIBlock::GetList(
     ["SORT" => "ASC"],
     [
         "SITE_ID" => $_REQUEST["site"],
-        "TYPE" => ($arCurrentValues["IBLOCK_TYPE"] != "-" ? $arCurrentValues["IBLOCK_TYPE"] : "")
+        "TYPE" => ($arCurrentValues["RESUMES_IBLOCK_TYPE"] != "-" ? $arCurrentValues["RESUMES_IBLOCK_TYPE"] : "")
     ]
 );
 while ($arRes = $db_iblock->Fetch())

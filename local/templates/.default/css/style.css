@@ -3034,3 +3034,9 @@ form .error {
 .form-signin .form-control {
     font-size: 14px;
 }
+.courses-list {
+    margin-bottom: 50px;
+}
+.courses-list ul li {
+    font-size: 22px;
+}
