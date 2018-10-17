@@ -15,11 +15,18 @@ $aMenuLinks = Array(
 		"" 
 	),
 	Array(
-		"Мои резюме / Добавление резюме", 
+		"Мои резюме",
 		"/applicants/my-resumes/", 
 		Array(), 
 		Array(), 
 		"" 
-	)
+	),
+    Array(
+        "Добавление резюме",
+        "/applicants/me/add",
+        Array(),
+        Array(),
+        ""
+    )
 );
 ?>

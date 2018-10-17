@@ -13,7 +13,7 @@
 $this->setFrameMode(true);
 ?>
     <div class="container">
-        <?$ElementID = $APPLICATION->IncludeComponent(
+        <?$APPLICATION->IncludeComponent(
             "bitrix:news.detail",
             "resume_vacancy",
             Array(

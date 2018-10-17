@@ -2,100 +2,45 @@
 require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 $APPLICATION->SetTitle("Для соискателей");
 ?>
-    <!-- career -->
-    <div class="container career-inner">
+    <div class="container">
         <div class="row">
-            <div class="col-md-12 career-head">
-                <h1 class="wow fadeIn">
-                    <? $APPLICATION->IncludeComponent(
-                        "bitrix:main.include",
-                        "",
-                        [
-                            "AREA_FILE_SHOW" => "file",
-                            "PATH" => "/include/applicants/section_h1.php"
-                        ]
-                    ); ?>
-                </h1>
-            </div>
+            <? $APPLICATION->IncludeComponent(
+                "my:account",
+                "",
+                Array(
+                    "ACCESS_DENIED_MESSAGE" => "Вы не имеете доступа к данному разделу",
+                    "ADD_FORM_PROPERTY_CODES" => array("9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "NAME", "PREVIEW_PICTURE", "DETAIL_TEXT", "DETAIL_PICTURE"),
+                    "ADD_FORM_PROPERTY_CODES_REQUIRED" => array("9", "10", "11", "12", "13", "14", "NAME", "PREVIEW_PICTURE", "DETAIL_TEXT", "DETAIL_PICTURE"),
+                    "ADD_IBLOCK_ID" => "5",
+                    "ADD_IBLOCK_TYPE" => "resume",
+                    "CACHE_TIME" => "31536000",
+                    "CACHE_TYPE" => "A",
+                    "DETAIL_FIELD_CODE" => array("", ""),
+                    "DETAIL_PROPERTY_CODE" => array("ATT_JOB_TITLE", "ATT_SALARY", "ATT_EMPLOYMENT_TYPE", "ATT_EMPLOYMENT_FORM", ""),
+                    "DETAIL_TEMPLATE" => "resume_vacancy",
+                    "GROUPS" => array("7"),
+                    "LIST_FIELD_CODE" => array("", ""),
+                    "LIST_PROPERTY_CODE" => array("", ""),
+                    "LIST_TEMPLATE" => ".default",
+                    "MY_ELEMENTS_COUNT" => "10",
+                    "PAGE_NAME_ACCOUNT" => "Личный кабинет",
+                    "PAGE_NAME_ADD" => "Добавление резюме",
+                    "PAGE_NAME_ADDED" => "Мои резюме",
+                    "PAGE_NAME_DETAIL" => "Детали вакансии",
+                    "PAGE_NAME_LIST" => "Список вакансий",
+                    "SEF_FOLDER" => "/applicants/",
+                    "SEF_MODE" => "Y",
+                    "SEF_URL_TEMPLATES" => Array("account" => "me/", "add" => "me/add/", "added" => "me/my_resumes/", "detail" => "vacancies/#ID#/", "list" => "vacancies/"),
+                    "SHOW_NAV" => "Y",
+                    "SORT_DIRECTION1" => "ASC",
+                    "SORT_DIRECTION2" => "ASC",
+                    "SORT_FIELD1" => "ID",
+                    "SORT_FIELD2" => "ID",
+                    "VIEW_ELEMENTS_COUNT" => "0",
+                    "VIEW_IBLOCK_ID" => "8",
+                    "VIEW_IBLOCK_TYPE" => "vacancies"
+                )
+            ); ?>
         </div>
-        <hr>
-        <div class="row">
-            <div class="col-md-12 wow fadeIn">
-                <? $APPLICATION->IncludeComponent(
-                    "bitrix:main.include",
-                    "",
-                    [
-                        "AREA_FILE_SHOW" => "file",
-                        "PATH" => "/include/applicants/section_text.php"
-                    ]
-                ); ?>
-            </div>
-        </div>
-        <hr>
-        <? $APPLICATION->IncludeComponent(
-            "bitrix:news.list",
-            "vacancies_list",
-            [
-                "ACTIVE_DATE_FORMAT" => "d.m.Y",
-                "ADD_SECTIONS_CHAIN" => "Y",
-                "AJAX_MODE" => "N",
-                "AJAX_OPTION_ADDITIONAL" => "",
-                "AJAX_OPTION_HISTORY" => "N",
-                "AJAX_OPTION_JUMP" => "N",
-                "AJAX_OPTION_STYLE" => "Y",
-                "CACHE_FILTER" => "N",
-                "CACHE_GROUPS" => "Y",
-                "CACHE_TIME" => "36000000",
-                "CACHE_TYPE" => "A",
-                "CHECK_DATES" => "Y",
-                "DETAIL_URL" => "",
-                "DISPLAY_BOTTOM_PAGER" => "Y",
-                "DISPLAY_DATE" => "Y",
-                "DISPLAY_NAME" => "Y",
-                "DISPLAY_PICTURE" => "Y",
-                "DISPLAY_PREVIEW_TEXT" => "Y",
-                "DISPLAY_TOP_PAGER" => "N",
-                "FIELD_CODE" => ["", ""],
-                "FILTER_NAME" => "",
-                "HIDE_LINK_WHEN_NO_DETAIL" => "N",
-                "IBLOCK_ID" => "8",
-                "IBLOCK_TYPE" => "vacancies",
-                "INCLUDE_IBLOCK_INTO_CHAIN" => "N",
-                "INCLUDE_SUBSECTIONS" => "Y",
-                "MESSAGE_404" => "",
-                "NEWS_COUNT" => "10",
-                "PAGER_BASE_LINK_ENABLE" => "N",
-                "PAGER_DESC_NUMBERING" => "N",
-                "PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
-                "PAGER_SHOW_ALL" => "N",
-                "PAGER_SHOW_ALWAYS" => "N",
-                "PAGER_TEMPLATE" => ".default",
-                "PAGER_TITLE" => "Новости",
-                "PARENT_SECTION" => "",
-                "PARENT_SECTION_CODE" => "",
-                "PREVIEW_TRUNCATE_LEN" => "",
-                "PROPERTY_CODE" => [
-                    "ATT_JOB_TITLE",
-                    "ATT_CATEGORY",
-                    "ATT_SALARY",
-                    "ATT_EMPLOYMENT_TYPE",
-                    "ATT_EMPLOYMENT_FORM"
-                ],
-                "SET_BROWSER_TITLE" => "Y",
-                "SET_LAST_MODIFIED" => "N",
-                "SET_META_DESCRIPTION" => "Y",
-                "SET_META_KEYWORDS" => "Y",
-                "SET_STATUS_404" => "N",
-                "SET_TITLE" => "Y",
-                "SHOW_404" => "N",
-                "SORT_BY1" => "ACTIVE_FROM",
-                "SORT_BY2" => "SORT",
-                "SORT_ORDER1" => "DESC",
-                "SORT_ORDER2" => "ASC",
-                "STRICT_SECTION_CHECK" => "N"
-            ]
-        ); ?>
-        <!-- career -->
     </div>
-
 <? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>

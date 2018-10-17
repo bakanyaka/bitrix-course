@@ -1,10 +1,14 @@
 <?php
 $eventManager = \Bitrix\Main\EventManager::getInstance();
 
+const APPLICANTS_USER_TYPE = 1;
+const EMPLOYERS_USER_TYPE = 2;
+
 $eventManager->addEventHandler("main", "OnBeforeUserRegister", function (&$arFields) {
-    if (isset($arFields["UF_USERTYPE"]) && $arFields["UF_USERTYPE"] == 1) {
+
+    if (isset($arFields["UF_USERTYPE"]) && $arFields["UF_USERTYPE"] == APPLICANTS_USER_TYPE) {
         $groupStringId = 'applicants';
-    } elseif (isset($arFields["UF_USERTYPE"]) && $arFields["UF_USERTYPE"] == 2) {
+    } elseif (isset($arFields["UF_USERTYPE"]) && $arFields["UF_USERTYPE"] == EMPLOYERS_USER_TYPE) {
         $groupStringId = 'employers';
     } else {
         return false;

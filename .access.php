@@ -1,4 +1,7 @@
 <?
+$PERM["about"]["8"]="R";
+$PERM["index.php"]["8"]="R";
+$PERM["index.php"]["5"]="W";
 $PERM["local"]["*"]="R";
 $PERM["bitrix"]["*"]="R";
 $PERM["/"]["8"]="W";
@@ -6,16 +9,5 @@ $PERM["/"]["*"]="R";
 $PERM[".top.menu.php"]["8"]="W";
 $PERM["events"]["8"]="W";
 $PERM["events"]["5"]="W";
-$PERM["applicants"]["8"]="W";
-$PERM["applicants"]["7"]="R";
-$PERM["applicants"]["5"]="W";
-$PERM["applicants"]["*"]="D";
-$PERM["employers"]["8"]="W";
-$PERM["employers"]["6"]="R";
-$PERM["employers"]["5"]="W";
-$PERM["employers"]["*"]="D";
-$PERM["about"]["8"]="W";
-$PERM["index.php"]["8"]="W";
-$PERM["index.php"]["5"]="W";
 $PERM["search"]["5"]="W";
 ?>

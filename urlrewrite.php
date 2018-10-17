@@ -1,14 +1,22 @@
 <?php
 $arUrlRewrite=array (
-  5 => 
+  4 => 
+  array (
+    'CONDITION' => '#^/courses/bitrix-developer/#',
+    'RULE' => '',
+    'ID' => 'bitrix:news',
+    'PATH' => '/courses/bitrix-developer/index.php',
+    'SORT' => 100,
+  ),
+  6 => 
   array (
     'CONDITION' => '#^/employers/my-vacancies/#',
     'RULE' => '',
     'ID' => 'bitrix:iblock.element.add',
-    'PATH' => '/employers/my-vacancies/index.php',
+    'PATH' => '/employers_/my-vacancies/index.php',
     'SORT' => 100,
   ),
-  6 => 
+  2 => 
   array (
     'CONDITION' => '#^/applicants/my-resumes/#',
     'RULE' => '',
@@ -16,7 +24,7 @@ $arUrlRewrite=array (
     'PATH' => '/applicants/my-resumes/index.php',
     'SORT' => 100,
   ),
-  3 => 
+  1 => 
   array (
     'CONDITION' => '#^/applicants/vacancies/#',
     'RULE' => '',
@@ -24,36 +32,36 @@ $arUrlRewrite=array (
     'PATH' => '/applicants/vacancies/index.php',
     'SORT' => 100,
   ),
-  7 => 
+  5 => 
   array (
     'CONDITION' => '#^/employers/resume/#',
     'RULE' => '',
     'ID' => 'bitrix:news',
-    'PATH' => '/employers/resume/index.php',
+    'PATH' => '/employers_/resume/index.php',
+    'SORT' => 100,
+  ),
+  3 => 
+  array (
+    'CONDITION' => '#^/courses/php/#',
+    'RULE' => '',
+    'ID' => 'bitrix:news',
+    'PATH' => '/courses/php/index.php',
+    'SORT' => 100,
+  ),
+  7 => 
+  array (
+    'CONDITION' => '#^/employers/#',
+    'RULE' => '',
+    'ID' => 'my:account',
+    'PATH' => '/employers/index.php',
     'SORT' => 100,
   ),
   0 => 
   array (
-    'CONDITION' => '#^/services/#',
-    'RULE' => '',
-    'ID' => 'bitrix:catalog',
-    'PATH' => '/services/index.php',
-    'SORT' => 100,
-  ),
-  1 => 
-  array (
-    'CONDITION' => '#^/products/#',
-    'RULE' => '',
-    'ID' => 'bitrix:catalog',
-    'PATH' => '/products/index.php',
-    'SORT' => 100,
-  ),
-  2 => 
-  array (
-    'CONDITION' => '#^/news/#',
+    'CONDITION' => '#^/events/#',
     'RULE' => '',
     'ID' => 'bitrix:news',
-    'PATH' => '/news/index.php',
+    'PATH' => '/events/index.php',
     'SORT' => 100,
   ),
 );

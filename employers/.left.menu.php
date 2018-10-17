@@ -2,7 +2,7 @@
 $aMenuLinks = Array(
 	Array(
 		"Личный кабинет работодателя", 
-		"/employers/me/", 
+		"/employers/lk/", 
 		Array(), 
 		Array(), 
 		"" 
@@ -15,8 +15,15 @@ $aMenuLinks = Array(
 		"" 
 	),
 	Array(
-		"Мои вакансии / Добавление вакансии", 
-		"/employers/my-vacancies/", 
+		"Мои вакансии", 
+		"/employers/lk/my_vacancies/", 
+		Array(), 
+		Array(), 
+		"" 
+	),
+	Array(
+		"Добавление вакансии", 
+		"/employers/lk/add/", 
 		Array(), 
 		Array(), 
 		"" 
